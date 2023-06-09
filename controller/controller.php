@@ -28,7 +28,7 @@ class controller{
             if(isset($_POST['Envoyer'])){
                 $mes->ajoutMessage($_POST['message'], $_SESSION['connexion'], $destinataire);
                 $mess=(new Message)->recupererMessage($_SESSION['connexion'], $destinataire);
-                (new vue)->ajoutMessage($mess, "envoie avec succée");               
+                (new vue)->ajoutMessage($mess, "envoie avec succée");             
             }else{
                 $mess=(new Message)->recupererMessage($_SESSION['connexion'], $destinataire);
                 (new vue)->ajoutMessage($mess);

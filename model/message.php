@@ -29,8 +29,11 @@ class Message{
     }
 
     public function recupererMessage($auteur, $destinataire){
-        $sql="SELECT `message` FROM message WHERE (idAuteur=:auteur AND idDestinataire=:destinataire)
-         OR (idAuteur=:destinataire AND idDestinataire=:auteur)";
+       /* $sql="SELECT `message` FROM message WHERE (idAuteur=:auteur AND idDestinataire=:destinataire)
+         OR (idAuteur=:destinataire AND idDestinataire=:auteur)";*/
+        
+        $sql="SELECT * FROM message WHERE (idAuteur=:auteur AND idDestinataire=:destinataire)
+        OR (idAuteur=:destinataire AND idDestinataire=:auteur)";
 
         $req=$this->pdo->prepare($sql);
         $req->bindParam(':auteur', $auteur, PDO::PARAM_INT).
