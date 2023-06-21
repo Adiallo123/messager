@@ -38,10 +38,22 @@ if(isset($_GET["action"])) {
 		case "recupererMessage":
 				(new controller)->recupererMessage();
 		break;
+		case "deconnexion":
+			(new controller)->deconnexion();
+		break;
+		case "updatePwd":
+			(new controller)->updatePwd();
+		break;
+		case "profil":
+			(new controller)->editionProfil();
+		break;
+		case "refresh":
+			(new controller)->refresh();
+		break;
 		// Route par défaut : erreur 404
 		default:
 			(new controller)->erreur404();
-			break;
+		break;
 	}
 }else{
 	if((isset($_GET["action"]) == null) and (isset($_SESSION["connexion"]))){

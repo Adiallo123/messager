@@ -16,12 +16,42 @@ class User{
         }
     }
 
-    public function getPseudo(){
-        $sql="SELECT id, pseudo FROM user";
+    public function getPseudo($id){
+        $sql="SELECT pseudo FROM user WHERE id = :id ";
         $req = $this->pdo->prepare($sql);
+        $req->bindPARAM(':id', $id, PDO::PARAM_INT);
         $req->execute();
-        return $req->fetchAll();
+        $ligne = $req->fetch();
+        return $ligne['pseudo'];
     }
+
+    public function getProfil($id){
+        $sql="SELECT profil FROM user WHERE id = :id ";
+        $req = $this->pdo->prepare($sql);
+        $req->bindPARAM(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+        $ligne = $req->fetch();
+    
+            if(is_null($ligne['profil'])){
+                return false;
+            }else{
+                return $ligne['profil'];
+            }
+    }
+    public function getProfilDiscusion($id){
+        $sql="SELECT profil FROM user WHERE id = :id ";
+        $req = $this->pdo->prepare($sql);
+        $req->bindPARAM(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+        $ligne = $req->fetch();
+    
+            if(is_null($ligne['profil'])){
+                return false;
+            }else{
+                return $ligne['profil'];
+            }
+    }
+
 
     public function getAllUser($id){
         $sql="SELECT * FROM user WHERE id <> :id";
@@ -45,6 +75,7 @@ class User{
             if(sha1($mdp) == $result["password"]){
                 //on créer une session
                 $_SESSION['connexion'] = $result['id'];
+                $_SESSION['pseudo'] = $result['pseudo'];
                 return true;
             }else{
                 return false;
@@ -73,8 +104,6 @@ class User{
        
     }
 
-
-
     //inscription utilisateur
     public function inscription($nom, $prenom, $mail, $pseudo, $mdp){
 
@@ -89,8 +118,23 @@ class User{
         $req->execute();
     }
 
+    public function updatePwd($password, $mail){
+        $sql="UPDATE user SET `password`=:mdp WHERE mail=:mail";
 
+        $req=$this->pdo->prepare($sql);
+        $req->bindParam(':mdp', $password, PDO::PARAM_STR);
+        $req->bindParam(':mail', $mail, PDO::PARAM_STR);
+        $req->execute();
+    }
 
+    public function editionProfil($profil, $id){
+        $sql="UPDATE user SET profil=:profil WHERE id=:id";
+
+        $req=$this->pdo->prepare($sql);
+        $req->bindParam(':profil', $profil, PDO::PARAM_STR);
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+    }
 }
 
 ?>
